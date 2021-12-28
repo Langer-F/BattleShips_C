@@ -4,12 +4,10 @@
 #include <ctype.h>
 #include <time.h>
 
-const int O = 6; 	//board size
-const int S = 5;	//number of submarines
-const int D = 1;	//number of destroyers
+const int O = 9; 	//board size (Max size is 9)
+const int S = 20;	//number of submarines
+const int D = 6;	//number of destroyers
 const int t = 10;   //number of torpedos
-
-
 
 void initOcean ();
 void showInventory (int d, int s, int t);
@@ -70,7 +68,7 @@ main()
             printf("\ntype the coordinate: ");
             scanf("%s",y);
             if (y[0]<65||y[0]>(65+O)||y[1]<49||y[1]>57)
-                printf("format of coordinate must be: \"upper case letter\"\"number\"\nexample: X10\n");
+                printf("format of coordinate must be: \"upper case letter\"\"number\"\nexample: X5\n");
            } while (y[0]<65||y[0]>(65+O)||y[1]<49||y[1]>57);
         yint=y[0]-65;
         x=y[1]-48;
@@ -157,14 +155,14 @@ void
 showOcean(int tor[O][O],int ta[O][O])
 {
     int i,j;
-    printf("    ");     //para deixar tudo alinhado
-        for(j=0;j<O;j++)    //Mostra os numeros topo do tabuleiro
+    printf("    ");         //Just to line up things
+        for(j=0;j<O;j++)    //show the numbers at the top of the board
             printf(" %.2d ",j+1);
         printf("\n");
-        for(i=0;i<O;i++)    //conta as linhas do tabuleiro
+        for(i=0;i<O;i++)
         {
             printf("    ");
-            for(j=0;j<O;j++)    //conta as colunas do tabuleiro
+            for(j=0;j<O;j++)
                 printf("+---");
             printf("+");
             printf("\n");
@@ -200,32 +198,14 @@ destryersIntoOcean(int ta[O][O])
         z=(rand()%2);
         if(z==1)
         {
-            i=(rand()%O);
+            i=(rand()%(O-1));
             j=(rand()%O);
             while(ta[i][j]==1
-                  ||ta[i-1][j]==1
-                  ||ta[i+2][j]==1
-                  ||ta[i][j-1]==1
-                  ||ta[i][j+1]==1
-                  ||ta[i+1][j+1]==1
-                  ||ta[i+1][j-1]==1
-                  ||ta[i-1][j-1]==1
-                  ||ta[i-1][j+1]==1
-                  ||ta[i+2][j+1]==1
-                  ||ta[i+2][j-1]==1
+                  ||ta[i+1][j]==1
                   ||ta[i][j]==2
-                  ||ta[i-1][j]==2
-                  ||ta[i+2][j]==2
-                  ||ta[i][j-1]==2
-                  ||ta[i][j+1]==2
-                  ||ta[i+1][j+1]==2
-                  ||ta[i+1][j-1]==2
-                  ||ta[i-1][j-1]==2
-                  ||ta[i-1][j+1]==2
-                  ||ta[i+2][j+1]==2
-                  ||ta[i+2][j-1]==2)
+                  ||ta[i+1][j]==2)
             {
-                i=(rand()%O);
+                i=(rand()%(O-1));
                 j=(rand()%O);
             }
             ta[i][j]=2;
@@ -233,32 +213,14 @@ destryersIntoOcean(int ta[O][O])
         }else
          {
             i=(rand()%O);
-            j=(rand()%O);
+            j=(rand()%(O-1));
             while(ta[i][j]==1
-                  ||ta[i][j-1]==1
-                  ||ta[i-1][j]==1
-                  ||ta[i-1][j+1]==1
-                  ||ta[i][j+2]==1
-                  ||ta[i+1][j+1]==1
-                  ||ta[i+1][j]==1
-                  ||ta[i-1][j-1]==1
-                  ||ta[i-1][j+2]==1
-                  ||ta[i+1][j+2]==1
-                  ||ta[i+1][j-1]==1
+                  ||ta[i][j+1]==1
                   ||ta[i][j]==2
-                  ||ta[i][j-1]==2
-                  ||ta[i-1][j]==2
-                  ||ta[i-1][j+1]==2
-                  ||ta[i][j+2]==2
-                  ||ta[i+1][j+1]==2
-                  ||ta[i+1][j]==2
-                  ||ta[i-1][j-1]==2
-                  ||ta[i-1][j+2]==2
-                  ||ta[i+1][j+2]==2
-                  ||ta[i+1][j-1]==2)
+                  ||ta[i][j+1]==2)
             {
                 i=(rand()%O);
-                j=(rand()%O);
+                j=(rand()%(O-1));
             }
             ta[i][j]=2;
             ta[i][j+1]=2;
@@ -271,28 +233,12 @@ submarinesIntoOcean (int ta[O][O])
 {
     int s,j,i;
     srand(time(NULL));
-    for(s=0;s<S;s++)        //coloca os submarinos na matriz
+    for(s=0;s<S;s++)
     {
         i=(rand()%O);
         j=(rand()%O);
         while(ta[i][j]==1
-              ||ta[i-1][j]==1
-              ||ta[i+1][j]==1
-              ||ta[i][j-1]==1
-              ||ta[i][j+1]==1
-              ||ta[i+1][j+1]==1
-              ||ta[i-1][j+1]==1
-              ||ta[i-1][j-1]==1
-              ||ta[i+1][j-1]==1
-              ||ta[i][j]==2
-              ||ta[i-1][j]==2
-              ||ta[i+1][j]==2
-              ||ta[i][j-1]==2
-              ||ta[i][j+1]==2
-              ||ta[i+1][j+1]==2
-              ||ta[i-1][j+1]==2
-              ||ta[i-1][j-1]==2
-              ||ta[i+1][j-1]==2)  //enquanto houver sub adjacente, gera novos valores
+              ||ta[i][j]==2)
         {
             i=(rand()%O);
             j=(rand()%O);
